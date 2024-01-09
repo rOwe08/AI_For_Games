@@ -1,0 +1,10 @@
+D:\school\aiGames\Pong-v2-CSharp\Pong-v3\Pong-v2\Prong\bin\Debug\Prong.exe
+D:\school\aiGames\Pong-v2-CSharp\Pong-v3\Pong-v2\Prong\bin\Debug\Prong.pdb
+D:\school\aiGames\Pong-v2-CSharp\Pong-v3\Pong-v2\Prong\bin\Debug\OpenTK.dll
+D:\school\aiGames\Pong-v2-CSharp\Pong-v3\Pong-v2\Prong\bin\Debug\OpenTK.pdb
+D:\school\aiGames\Pong-v2-CSharp\Pong-v3\Pong-v2\Prong\bin\Debug\OpenTK.xml
+D:\school\aiGames\Pong-v2-CSharp\Pong-v3\Pong-v2\Prong\obj\Debug\Prong.csproj.AssemblyReference.cache
+D:\school\aiGames\Pong-v2-CSharp\Pong-v3\Pong-v2\Prong\obj\Debug\Prong.csproj.CoreCompileInputs.cache
+D:\school\aiGames\Pong-v2-CSharp\Pong-v3\Pong-v2\Prong\obj\Debug\Prong.csproj.CopyComplete
+D:\school\aiGames\Pong-v2-CSharp\Pong-v3\Pong-v2\Prong\obj\Debug\Prong.exe
+D:\school\aiGames\Pong-v2-CSharp\Pong-v3\Pong-v2\Prong\obj\Debug\Prong.pdb
