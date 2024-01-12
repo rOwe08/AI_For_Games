@@ -1,0 +1,23 @@
+NDW:0.0
+TTFW:1.2
+DFPT:2.0
+DFPAP:3.0
+DFPMP:5.0
+SEARCH_STEPS:10.0
+TIME_TO_FINISH:2.0
+level,win/fail,% travelled,run time,game ticks,planning time,total plannings,nodes evaluated,most backtracked nodes
+Mario-1,true,1.00,26,686,9,1,85,7
+Mario-2,true,1.00,27,649,14,1,93,17
+Mario-3,true,1.00,49,986,26,1,271,56
+Mario-4,true,1.00,26337,840,26336,806,337147,373
+Mario-5,true,1.00,39,876,21,1,149,41
+Mario-6,true,1.00,121,946,98,3,1330,268
+Mario-7,true,1.00,38,775,19,1,187,37
+Mario-8,true,1.00,3153,816,3140,100,44164,302
+Mario-9,true,1.00,20,535,8,1,69,14
+Mario-10,true,1.00,32,736,17,1,176,43
+Mario-11,false,0.94,21914,686,21913,686,310469,394
+Mario-12,true,1.00,26357,1346,26345,812,406735,429
+Mario-13,true,1.00,117,1077,95,3,1301,166
+Mario-14,true,1.00,28,695,11,1,87,11
+Mario-15,true,1.00,68807,2149,68806,2115,977531,482

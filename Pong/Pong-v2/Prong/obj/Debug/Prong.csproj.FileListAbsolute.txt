@@ -1,0 +1,10 @@
+D:\GitHub\AI_For_Games\Pong\Pong-v2\Prong\bin\Debug\Prong.exe
+D:\GitHub\AI_For_Games\Pong\Pong-v2\Prong\bin\Debug\Prong.pdb
+D:\GitHub\AI_For_Games\Pong\Pong-v2\Prong\bin\Debug\OpenTK.dll
+D:\GitHub\AI_For_Games\Pong\Pong-v2\Prong\bin\Debug\OpenTK.pdb
+D:\GitHub\AI_For_Games\Pong\Pong-v2\Prong\bin\Debug\OpenTK.xml
+D:\GitHub\AI_For_Games\Pong\Pong-v2\Prong\obj\Debug\Prong.csproj.AssemblyReference.cache
+D:\GitHub\AI_For_Games\Pong\Pong-v2\Prong\obj\Debug\Prong.csproj.CoreCompileInputs.cache
+D:\GitHub\AI_For_Games\Pong\Pong-v2\Prong\obj\Debug\Prong.csproj.CopyComplete
+D:\GitHub\AI_For_Games\Pong\Pong-v2\Prong\obj\Debug\Prong.exe
+D:\GitHub\AI_For_Games\Pong\Pong-v2\Prong\obj\Debug\Prong.pdb
