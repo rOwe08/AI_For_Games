@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Security.Permissions;
     using System.Threading;
+    using UnityEditor.Experimental.GraphView;
     using UnityEngine;
     using static System.Math;
     class MCTSSearch : ISearch
@@ -22,6 +23,8 @@
         Evaluation evaluation;
 
         System.Random rand;
+
+        int numOfPlays = 0;
 
         // Diagnostics
         public SearchDiagnostics Diagnostics { get; set; }
@@ -68,43 +71,72 @@
 
         void SearchMoves()
         {
-            MCTSNode rootNode = new MCTSNode(board, null, board.WhiteToMove);
+            MCTSNode rootNode = new MCTSNode(board, null, board.WhiteToMove, new Move());
+            rootNode.UntriedMovesList = moveGenerator.GenerateMoves(board, true, true);
+            MCTSNode node = rootNode;
 
             while (!abortSearch)
             {
-                MCTSNode node = rootNode;
-                node.UntriedMovesList = moveGenerator.GenerateMoves(board, true, true);
-
                 // Selection
-                while (node.IsFullyExpanded() && !node.IsLeafNode())
-                {
-                    node = node.SelectChild();
-                    if (node == null)
-                    {
-                        node = rootNode;
-                        break;
-                    }
-                    node.UntriedMovesList = moveGenerator.GenerateMoves(board, false, true);
-                }
+                node = Select(node);
 
                 // Expansion
                 ExpandNode(node);
-                
+
                 // Simulation
                 double reward = Simulate(node);
 
                 // Backpropagation
                 Backpropagate(node, reward);
+
+                node = rootNode;
+
+                numOfPlays++;
+
+                if (settings.maxNumOfPlayouts < numOfPlays)
+                {
+                    settings.limitNumOfPlayouts = true;
+                    abortSearch = true;
+                }
             }
+
+            UpdateBestMove(rootNode);
         }
+        MCTSNode Select(MCTSNode node)
+        {
+            while (node.ChildrenNodesList.Count > 0 || node.UntriedMovesList.Count > 0)
+            {
+                if (node.UntriedMovesList.Count > 0)
+                {
+                    return node;
+                }
+                else
+                {
+                    node = node.SelectChild();
+                }
+            }
+            return node;
+        }
+
         void Backpropagate(MCTSNode node, double reward)
         {
             while (node != null)
             {
-                node.NumOfWins += reward;
-                node.NumOfVisits++;
+                node.Update(reward);
 
-                node = node.ParentNode;
+                node = node.GetParentNode();
+            }
+        }
+
+        void UpdateBestMove(MCTSNode rootNode)
+        {
+            MCTSNode bestChild = rootNode.ChildrenNodesList
+                .OrderByDescending(node => (double)node.NumOfWins / node.NumOfVisits)
+                .FirstOrDefault();
+
+            if (bestChild != null)
+            {
+                bestMove = bestChild.MoveLeadingToThisNode;
             }
         }
 
@@ -117,6 +149,8 @@
                 newBoard.MakeMove(move, false);
 
                 node.AddChild(move, newBoard);
+
+                node.ChildrenNodesList.Last().UntriedMovesList = moveGenerator.GenerateMoves(newBoard, false, true);
             }
         }
 
@@ -126,8 +160,6 @@
             int depth = 0;
             bool isGameOver = false;
             bool? winningTeam = null;
-
-            System.Random rand = new System.Random();
 
             while (depth < settings.playoutDepthLimit && !isGameOver)
             {
@@ -146,7 +178,7 @@
                     isGameOver = true;
                     winningTeam = kingCaptureResult.Value;
                 }
-
+                
                 depth++;
             }
 
@@ -172,19 +204,22 @@
             {
                 for (int j = 0; j < simBoard.GetLength(1); j++)
                 {
-                    if (simBoard[i, j].code == "wK")
+                    if (simBoard[i, j] != null)
                     {
-                        whiteKingExists = true;
-                    }
-                    else if (simBoard[i, j].code == "bK")
-                    {
-                        blackKingExists = true;
+                        if (simBoard[i, j].code == "wK")
+                        {
+                            whiteKingExists = true;
+                        }
+                        else if (simBoard[i, j].code == "bK")
+                        {
+                            blackKingExists = true;
+                        }
                     }
                 }
             }
 
-            if (!whiteKingExists) return true;
-            if (!blackKingExists) return false;
+            if (!whiteKingExists) return false;
+            if (!blackKingExists) return true;
             return null;
         }
         void ApplySimMove(SimPiece[,] simBoard, SimMove move)

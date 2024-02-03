@@ -12,12 +12,13 @@
         public MCTSNode ParentNode { get; private set; }
         public List<MCTSNode> ChildrenNodesList { get; private set; }
         public double NumOfWins { get; set; }
-        public int NumOfVisits { get; set; }
+        public double NumOfVisits { get; set; }
         public List<Move> UntriedMovesList { get; set; }
+        public Move MoveLeadingToThisNode { get; private set; }
 
         private double c = 1;
 
-        public MCTSNode(Board boardState, MCTSNode parent, bool team)
+        public MCTSNode(Board boardState, MCTSNode parent, bool team, Move moveLeadingToThisNode)
         {
             Team = team;
             BoardState = boardState;
@@ -26,6 +27,7 @@
             UntriedMovesList = new List<Move>();
             NumOfWins = 0;
             NumOfVisits = 0;
+            MoveLeadingToThisNode = moveLeadingToThisNode;
         }
 
         public MCTSNode SelectChild()
@@ -52,7 +54,7 @@
 
         public void AddChild(Move move, Board state)
         {
-            ChildrenNodesList.Add(new MCTSNode(state, this, !Team));
+            ChildrenNodesList.Add(new MCTSNode(state, this, !Team, move));
             UntriedMovesList.Remove(move);
         }
 
@@ -77,7 +79,7 @@
             //{
             //    return false;
             //}
-            return false;     
+            return false;
         }
 
         private double UCB(MCTSNode node)
@@ -88,7 +90,7 @@
             }
 
             double winRate = (double)node.NumOfWins / node.NumOfVisits;
-            double ucbValue = winRate + c * Mathf.Sqrt(Mathf.Log(this.NumOfVisits) / node.NumOfVisits);   // UCB(a_i) = Q(a_i) + c * sqrt((ln(n) / n_i))
+            double ucbValue = winRate + c * Mathf.Sqrt(Mathf.Log((float)this.NumOfVisits) / (float)node.NumOfVisits);   // UCB(a_i) = Q(a_i) + c * sqrt((ln(n) / n_i))
             return ucbValue;
         }
     }
