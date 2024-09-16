@@ -30,14 +30,14 @@
             MoveLeadingToThisNode = moveLeadingToThisNode;
         }
 
-        public MCTSNode SelectChild()
+        public MCTSNode SelectChild(bool IsOpponentsTurn)
         {
             MCTSNode selected = null;
             double bestValue = double.MinValue;
 
             foreach (MCTSNode childNode in ChildrenNodesList)
             {
-                double ucbValue = UCB(childNode);
+                double ucbValue = UCB(childNode, IsOpponentsTurn);
                 if (ucbValue > bestValue)
                 {
                     selected = childNode;
@@ -61,7 +61,7 @@
         public void Update(double result)
         {
             NumOfVisits++;
-            NumOfWins += (int)result;
+            NumOfWins += result;
         }
 
         public bool IsFullyExpanded()
@@ -69,27 +69,24 @@
             return UntriedMovesList.Count == 0;
         }
 
-        public bool IsLeafNode()
-        {
-            //if(Win or Lose or Draw)
-            //{
-            //    return true;
-            //}
-            //else
-            //{
-            //    return false;
-            //}
-            return false;
-        }
-
-        private double UCB(MCTSNode node)
+        private double UCB(MCTSNode node, bool IsOpponentsTurn)
         {
             if (node.NumOfVisits == 0)
             {
                 return double.MaxValue;
             }
 
-            double winRate = (double)node.NumOfWins / node.NumOfVisits;
+            double winRate;
+
+            if (IsOpponentsTurn)
+            {
+                winRate = 1 - (double)node.NumOfWins / node.NumOfVisits;
+            }
+            else
+            {
+                winRate = (double)node.NumOfWins / node.NumOfVisits;
+            }
+
             double ucbValue = winRate + c * Mathf.Sqrt(Mathf.Log((float)this.NumOfVisits) / (float)node.NumOfVisits);   // UCB(a_i) = Q(a_i) + c * sqrt((ln(n) / n_i))
             return ucbValue;
         }
